@@ -18,7 +18,7 @@ Changes in a running environment can be applied as follows:
 `cd /vagrant/podman/<project>`
 
 ### Start
-`podman compose up -d`
+`podman-compose up -d`
 
 ### Stop
 `podman-compose down`

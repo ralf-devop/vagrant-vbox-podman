@@ -5,6 +5,10 @@
   become: yes
 
   tasks:
+
+    - name: Set timezone
+      ansible.builtin.command: "timedatectl set-timezone Europe/Berlin"
+
     - name: install packages
       ansible.builtin.apt:
         name:
