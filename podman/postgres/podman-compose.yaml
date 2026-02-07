@@ -1,0 +1,18 @@
+
+services:
+
+  db:
+    image: docker.io/library/postgres:18.1
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - /var/data/postgres:/var/lib/postgresql
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: docker.io/library/adminer:5.4.1
+    restart: always
+    ports:
+      - 8088:8080

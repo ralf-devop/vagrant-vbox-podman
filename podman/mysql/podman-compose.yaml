@@ -1,0 +1,12 @@
+
+services:
+
+  db:
+    image: docker.io/library/mysql:9.6.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - /var/data/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306

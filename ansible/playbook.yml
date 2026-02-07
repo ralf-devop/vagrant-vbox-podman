@@ -1,0 +1,41 @@
+---
+- name: provision vagrant box
+  hosts: all
+  gather_facts: no
+  become: yes
+
+  tasks:
+    - name: install packages
+      ansible.builtin.apt:
+        name:
+          - podman
+          - podman-compose
+          - vim
+          - jq
+        update_cache: yes
+
+    - name: Set podman search registries
+      ansible.builtin.lineinfile:
+        path: /etc/containers/registries.conf
+        regexp: '^unqualified-search-registries ='
+        line: 'unqualified-search-registries = ["docker.io", "container-registry.oracle.com"]'
+
+    - name: Create directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0755"
+        owner: vagrant
+        group: vagrant
+      with_items:
+        - /var/data/postgres
+        - /var/data/mysql
+        - /var/data/oracle
+
+    - name: Set owner of mysql data directory
+      ansible.builtin.command: "podman unshare chown 999:999 /var/data/mysql"
+      become_user: vagrant
+
+    - name: Set owner of oracle data directory
+      ansible.builtin.command: "podman unshare chown 54321:54321 /var/data/oracle"
+      become_user: vagrant
