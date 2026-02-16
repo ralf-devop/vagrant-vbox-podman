@@ -3,6 +3,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/debian-13"
   config.vm.box_version = "202510.26.0"
 
+  config.vm.network "forwarded_port", guest: 8090, host: 8090
   config.vm.network "forwarded_port", guest: 8088, host: 8088
   config.vm.network "forwarded_port", guest: 5432, host: 5432
   config.vm.network "forwarded_port", guest: 3306, host: 3306

@@ -35,11 +35,20 @@
         - /var/data/postgres
         - /var/data/mysql
         - /var/data/oracle
+        - /var/data/wordpress/content
+        - /var/data/wordpress/mysql
 
     - name: Set owner of mysql data directory
-      ansible.builtin.command: "podman unshare chown 999:999 /var/data/mysql"
+      ansible.builtin.command: "podman unshare chown 999:999 {{ item }}"
       become_user: vagrant
+      with_items:
+        - /var/data/mysql
+        - /var/data/wordpress/mysql
 
     - name: Set owner of oracle data directory
       ansible.builtin.command: "podman unshare chown 54321:54321 /var/data/oracle"
+      become_user: vagrant
+
+    - name: Set owner of wordpress content directory
+      ansible.builtin.command: "podman unshare chown 33:33 /var/data/wordpress/content"
       become_user: vagrant
