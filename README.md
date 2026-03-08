@@ -11,7 +11,9 @@ My vagrant vbox environment to play around with podman containers.
 
 The configuration is defined as an ansible playbook.
 Changes in a running environment can be applied as follows:
-`ansible-playbook --connection=local --inventory 127.0.0.1, /vagrant/ansible/playbook.yml`
+```
+ansible-playbook --connection=local --inventory 127.0.0.1, /vagrant/ansible/playbook.yml
+```
 
 ## Using Podman-Compose
 

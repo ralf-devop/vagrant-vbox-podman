@@ -9,7 +9,7 @@
     - name: Set timezone
       ansible.builtin.command: "timedatectl set-timezone Europe/Berlin"
 
-    - name: install packages
+    - name: Install packages
       ansible.builtin.apt:
         name:
           - podman
@@ -17,6 +17,25 @@
           - vim
           - jq
         update_cache: yes
+
+    - name: Remove other motds
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_fileglob: "/etc/update-motd.d/??-[!w]*"
+
+    - name: Remove default motd
+      ansible.builtin.copy:
+        src: /dev/null
+        dest: /etc/motd
+
+    - name: Set message of the day
+      ansible.builtin.copy:
+        src: ./motd
+        dest: /etc/update-motd.d/00-welcome
+        owner: root
+        group: root
+        mode: '0755'
 
     - name: Set podman search registries
       ansible.builtin.lineinfile:
